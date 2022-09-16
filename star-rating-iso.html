@@ -1,0 +1,14 @@
+<!-- Create the filled in stars. If the rating has a half star, ignore it for now. -->
+<span ng-repeat="x in [].constructor((rating % 1 === 0) ? rating : rating - 0.5) track by $index">
+    <i class="bi bi-star-fill"></i>
+</span>
+
+<!-- Create the half star, if there is one. -->
+<span ng-if="rating % 1 !== 0">
+    <i class="bi bi-star-half"></i>
+</span>
+
+<!-- Create the empty stars (determined by subtracting the number of filled and half stars from 5). -->
+<span ng-repeat="x in [].constructor(5 - ((rating % 1 === 0) ? rating : rating + 0.5)) track by $index">
+    <i class="bi bi-star"></i>
+</span>

@@ -1,0 +1,1 @@
+angular.module('blog', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
