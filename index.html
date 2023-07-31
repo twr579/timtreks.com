@@ -1,202 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        
-        <title>Tim Treks</title>
-        
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="The blog of Tim Reynolds, A UT student and aspiring web developer. Tim documents his hikes at state parks and natural areas throughout the Hill Country.">
-        
-        <!-- CSS for Bootstrap 3.3.7 -->
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        
-        <!-- Bootstrap icons -->
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-        
-        <!-- Style.css -->
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        
-        <noscript>
-            <h1 style="text-align: center">Some features on this site may not work with JavaScript disabled.</h1>
-        </noscript>
-        
-    </head>
-    <body ng-app="blog" ng-controller="blogController">
-        
-        <!-- Cover image and text -->
-        <section class="cover">
-            
-            <!-- Cover image -->
-            <div class="background"></div>
-            
-            <!-- Cover text -->
-            <div class="cover-text text-center">
-                <h1><strong>Tim Treks</strong></h1>
-                <p class="lead">Hiking the Hill Country Since 2021</p>
-                <a class="btn btn-lg to-blog">Read My Blog</a>
-            </div>
-        </section>
-        
-        <!-- Quotes separating the cover image from the posts -->
-        <section class="quotes container-fluid text-center">
-            
-            <!-- Quote 1 -->
-            <blockquote class="slidein-from-left blockquote">
-                <p>&ldquo; Afoot and lighthearted I take to the open road, healthy, free, the world before me. &rdquo;</p>
-                <footer class="blockquote-footer">Walt Whitman, &ldquo;Song of the Open Road&rdquo;</footer>
-            </blockquote>
-            
-            <!-- Quote 2 -->
-            <blockquote class="slidein-from-right blockquote">
-                <p>&ldquo; It's just me and the open road... &rdquo;</p>
-                <footer class="blockquote-footer">Bob Odenkirk, &ldquo;I Think You Should Leave with Tim Robinson&rdquo;</footer>
-            </blockquote>
-        </section>
-        
-        <!-- The blog itself -->
-        <section class="blog container-fluid">
-            <div class="container">
-                <div class="row content">
-                    <div class="col-sm-8">
-                        
-                        <!-- A header for the blog -->
-                        <section class="panel">
+
+<head>
+
+    <title>Tim Treks</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="The blog of Tim Reynolds, A UT student and aspiring web developer. Tim documents his hikes at state parks and natural areas throughout the Hill Country.">
+
+    <!-- CSS for Bootstrap 3.3.7 -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <noscript>
+        <h1 style="text-align: center">Some features on this site may not work with JavaScript disabled.</h1>
+    </noscript>
+
+</head>
+
+<body ng-app="blog" ng-controller="blogController">
+
+    <!-- Cover image and text -->
+    <section class="cover">
+
+        <!-- Cover image -->
+        <div class="background"></div>
+
+        <!-- Cover text -->
+        <div class="cover-text text-center">
+            <h1><strong>Tim Treks</strong></h1>
+            <p class="lead">Hiking the Hill Country Since 2021</p>
+            <a class="btn btn-lg to-blog">Read My Blog</a>
+        </div>
+    </section>
+
+    <!-- Quotes separating the cover image from the posts -->
+    <section class="quotes container-fluid text-center">
+
+        <!-- Quote 1 -->
+        <blockquote class="slidein-from-left blockquote">
+            <p>&ldquo; Afoot and lighthearted I take to the open road, healthy, free, the world before me. &rdquo;</p>
+            <footer class="blockquote-footer">Walt Whitman, &ldquo;Song of the Open Road&rdquo;</footer>
+        </blockquote>
+
+        <!-- Quote 2 -->
+        <blockquote class="slidein-from-right blockquote">
+            <p>&ldquo; It's just me and the open road... &rdquo;</p>
+            <footer class="blockquote-footer">Bob Odenkirk, &ldquo;I Think You Should Leave with Tim Robinson&rdquo;
+            </footer>
+        </blockquote>
+    </section>
+
+    <!-- The blog itself -->
+    <section class="blog container-fluid">
+        <div class="container">
+            <div class="row content">
+                <div class="col-sm-8">
+
+                    <!-- A header for the blog -->
+                    <section class="panel">
+                        <div class="panel-heading text-center">
+                            <h2>Posts<span class="badge">{{ posts.length }}</span></h2>
+                        </div>
+                        <div class="panel-body">
+
+                            <!-- Dropdown menu for filtering -->
+                            <div class="btn-group" uib-dropdown is-open="dropdown.isopen">
+                                <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle>
+                                    Sort by: {{ dropdown.selectedItem }} <i class="bi"
+                                        ng-class="{ 'bi-chevron-up' : dropdown.isopen, 'bi-chevron-down' : !dropdown.isopen }"
+                                        aria-hidden="true"></i>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                    <li role="menuitem" ng-repeat="item in dropdownItems" ng-click="selectItem(item)">
+                                        <a>{{ item[0] }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- Blog posts, dynamically created with Angular.js, PHP, and MySQL -->
+                    <section class="panel-group">
+
+                        <!-- Post -->
+                        <article class="panel" ng-repeat="post in posts | orderBy : dropdown.filter : dropdown.reverse">
+
+                            <!-- Post header -->
                             <div class="panel-heading text-center">
-                                <h2>Posts<span class="badge">{{ posts.length }}</span></h2>
+                                <h3>{{ post.name }}<span class="badge" ng-hide="!post.new">New</span></h3>
                             </div>
+
+                            <!-- post body -->
                             <div class="panel-body">
-                                
-                                <!-- Dropdown menu for filtering -->
-                                <div class="btn-group" uib-dropdown is-open="dropdown.isopen">
-                                    <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle>
-                                        Sort by: {{ dropdown.selectedItem }} <i class="bi" ng-class="{ 'bi-chevron-up' : dropdown.isopen, 'bi-chevron-down' : !dropdown.isopen }" aria-hidden="true"></i>
-                                    </button>
-                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                                        <li role="menuitem" ng-repeat="item in dropdownItems" ng-click="selectItem(item)"><a>{{ item[0] }}</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </section>
-                    
-                        
-                        <!-- Blog posts, dynamically created with Angular.js, PHP, and MySQL -->
-                        <section class="panel-group">
-                            
-                            <!-- Post -->
-                            <article class="panel" ng-repeat="post in posts | orderBy : dropdown.filter : dropdown.reverse">
-                                    
-                                <!-- Post header -->
-                                <div class="panel-heading text-center">
-                                    <h3>{{ post.name }}<span class="badge" ng-hide="!post.new">New</span></h3>
-                                 </div>
-                                    
-                                <!-- post body -->
-                                <div class="panel-body">
-                                        
-                                    <!-- Date the post was created -->
-                                    <p class="created-date lead text-center"><time datetime="{{ post.created_date }}">{{ post.created_date | date : "MMMM d, yyyy" }}</time></p>
-                                        
-                                     <!-- Map image -->
-                                    <figure class="map thumbnail text-center">
-                                        <a href="{{ 'images/' + post.img + '-map.webp' }}">
-                                            <img ng-src="{{ 'images/' + post.img + '-map-sm.webp' }}" alt="{{ 'A trail map of ' + post.name }}" class="img-responsive img-thumbnail" width="206" height="318">
-                                            <figcaption class="caption">Click to view</figcaption>
-                                        </a>
+
+                                <!-- Date the post was created -->
+                                <p class="created-date lead text-center"><time datetime="{{ post.created_date }}">{{
+                                        post.created_date | date : "MMMM d, yyyy" }}</time></p>
+
+                                <!-- Map image -->
+                                <figure class="map thumbnail text-center">
+                                    <a href="{{ 'images/' + post.img + '-map.webp' }}">
+                                        <img ng-src="{{ 'images/' + post.img + '-map-sm.webp' }}"
+                                            alt="{{ 'A trail map of ' + post.name }}"
+                                            class="img-responsive img-thumbnail" width="206" height="318">
+                                        <figcaption class="caption">Click to view</figcaption>
+                                    </a>
+                                </figure>
+
+                                <!-- Date I hiked the hike -->
+                                <p><strong>Hiked on: </strong><time datetime="{{ post.hiked_date }}">{{ post.hiked_date
+                                        | date : "MMMM d, yyyy" }}</time></p>
+
+                                <!-- Headline of the post -->
+                                <p>{{ post.headline }}</p>
+
+                                <!-- Collapsible content toggled by the "Read more" link -->
+                                <div uib-collapse="post.isCollapsed">
+                                    <figure class="img1 thumbnail text-center">
+                                        <img ng-src="{{ 'images/' + post.img + '-1.webp' }}" alt="{{ post.alt_1 }}"
+                                            class="img-rounded img-responsive" width="252" height="189">
+                                        <figcaption class="caption">{{ post.caption_1 }}</figcaption>
                                     </figure>
-                                        
-                                    <!-- Date I hiked the hike -->
-                                    <p><strong>Hiked on: </strong><time datetime="{{ post.hiked_date }}">{{ post.hiked_date | date : "MMMM d, yyyy" }}</time></p>
-                                        
-                                    <!-- Headline of the post -->
-                                    <p>{{ post.headline }}</p>
-                                        
-                                    <!-- Collapsible content toggled by the "Read more" link -->
-                                    <div uib-collapse="post.isCollapsed">
-                                        <figure class="img1 thumbnail text-center">
-                                            <img ng-src="{{ 'images/' + post.img + '-1.webp' }}" alt="{{ post.alt_1 }}" class="img-rounded img-responsive" width="252" height="189">
-                                            <figcaption class="caption">{{ post.caption_1 }}</figcaption>
-                                        </figure>
-                                            
-                                        <!-- Description of the hike -->
-                                        <p class="description">{{ post.description }}</p>
-                                            
-                                        <figure class="img2 thumbnail text-center">
-                                            <img ng-src="{{ 'images/' + post.img + '-2.webp' }}" alt="{{ post.alt_2 }}" class="img-rounded img-responsive" width="252" height="189">
-                                            <figcaption class="caption">{{ post.caption_2 }}</figcaption>
-                                        </figure>
-                                            
-                                        <!-- Number of miles I hiked -->
-                                        <p><strong>Miles Hiked: </strong>{{ post.miles }}</p>
-                                            
-                                        <!-- Favorite trail on the hike -->
-                                        <p><strong>Favorite Trail: </strong>{{ post.trail }}</p>
-                                            
-                                        <!-- Rating of the hike -->
-                                        <p>
-                                            <strong>Rating:</strong>
-                                            <star-rating class="star" rating="post.rating"></star-rating>
-                                        </p>
-                                    </div>
-                                        
-                                    <!-- The "Read more" link -->
-                                    <a class="collapse-link" ng-click="post.isCollapsed = !post.isCollapsed">{{ post.isCollapsed ? 'Read more ' : 'Read less ' }}<i class="bi" ng-class="{ 'bi-chevron-down' : post.isCollapsed, 'bi-chevron-up' : !post.isCollapsed, 'chevron' : chevron }" aria-hidden="true"></i></a>
+
+                                    <!-- Description of the hike -->
+                                    <p class="description">{{ post.description }}</p>
+
+                                    <figure class="img2 thumbnail text-center">
+                                        <img ng-src="{{ 'images/' + post.img + '-2.webp' }}" alt="{{ post.alt_2 }}"
+                                            class="img-rounded img-responsive" width="252" height="189">
+                                        <figcaption class="caption">{{ post.caption_2 }}</figcaption>
+                                    </figure>
+
+                                    <!-- Number of miles I hiked -->
+                                    <p><strong>Miles Hiked: </strong>{{ post.miles }}</p>
+
+                                    <!-- Favorite trail on the hike -->
+                                    <p><strong>Favorite Trail: </strong>{{ post.trail }}</p>
+
+                                    <!-- Rating of the hike -->
+                                    <p>
+                                        <strong>Rating:</strong>
+                                        <star-rating class="star" rating="post.rating"></star-rating>
+                                    </p>
                                 </div>
-                            </article>
-                        </section>
-                    </div>
-                    
-                    <div class="col-sm-4">
-                        
-                        <!-- A sidebar about me -->
-                        <aside class="about panel text-center">
-                            
-                            <!-- Sidebar header -->
-                            <div class="panel-heading">
-                                <h2>About me</h2>
+
+                                <!-- The "Read more" link -->
+                                <a class="collapse-link" ng-click="post.isCollapsed = !post.isCollapsed">{{
+                                    post.isCollapsed ? 'Read more ' : 'Read less ' }}<i class="bi"
+                                        ng-class="{ 'bi-chevron-down' : post.isCollapsed, 'bi-chevron-up' : !post.isCollapsed, 'chevron' : chevron }"
+                                        aria-hidden="true"></i></a>
                             </div>
-                            
-                            <!-- Sidebar body -->
-                            <div class="panel-body">
-                                <img src="images/tim.webp" alt="Tim smiling in front of Gorman Falls at Colorado Bend State Park." class="about-img img-responsive img-thumbnail" width="531" height="531">
-                                <p>
-                                    I’m an Electrical and Computer Engineering student at UT Austin, but I try to get some fresh air from time to time. You can learn more about me and what I do on my personal website, <a class="collapse-link" href="//timrey.nl">timrey.nl</a>.
-                                </p>
-                                
-                                <!-- Social media icons -->
-                                <p class="socials text-center">
-                                    <a class="social" href="//www.linkedin.com/in/tim-reynolds-ut/"><i class="bi bi-linkedin" aria-hidden="true"></i><span class="sr-only">LinkedIn</span></a>
-                                    <a class="social" href="//github.com/twr579"><i class="bi bi-github" aria-hidden="true"></i><span class="sr-only">Github</span></a>
-                                    <a class="social" href="//www.youtube.com/channel/UCUcC0kGys8Pf8snnT15nxiQ"><i class="bi bi-youtube" aria-hidden="true"></i><span class="sr-only">YouTube</span></a>
-                                </p>
+                        </article>
+                    </section>
+                </div>
+
+                <div class="col-sm-4">
+
+                    <!-- A sidebar about me -->
+                    <aside class="about panel text-center">
+
+                        <!-- Sidebar header -->
+                        <div class="panel-heading">
+                            <h2>About me</h2>
+                        </div>
+
+                        <!-- Sidebar body -->
+                        <div class="panel-body">
+                            <img src="images/tim.webp" alt="Me and a longhorn"
+                                class="about-img img-responsive img-thumbnail" width="531" height="531">
+                            <p>
+                                I’m an Electrical and Computer Engineering student at UT Austin, but I try to get some
+                                fresh air from time to time. You can learn more about me and what I do on my personal
+                                website, <a class="collapse-link" href="//timrey.nl">timrey.nl</a>.
+                            </p>
+
+                            <!-- Social media icons -->
+                            <p class="socials text-center">
+                                <a class="social" href="//www.linkedin.com/in/tim-reynolds-ut/"><i
+                                        class="bi bi-linkedin" aria-hidden="true"></i><span
+                                        class="sr-only">LinkedIn</span></a>
+                                <a class="social" href="//github.com/twr579"><i class="bi bi-github"
+                                        aria-hidden="true"></i><span class="sr-only">Github</span></a>
+                                <a class="social" href="//www.youtube.com/channel/UCUcC0kGys8Pf8snnT15nxiQ"><i
+                                        class="bi bi-youtube" aria-hidden="true"></i><span
+                                        class="sr-only">YouTube</span></a>
+                            </p>
+                        </div>
+                    </aside>
+
+                    <!-- A sidebar with an ArcGIS map -->
+                    <aside class="aside panel">
+
+                        <!-- Sidebar header -->
+                        <div class="panel-heading text-center">
+                            <h2>Map</h2>
+                        </div>
+
+                        <!-- Sidebar body -->
+                        <div class="panel-body">
+                            <style>
+                                .embed-container {
+                                    position: relative;
+                                    padding-bottom: 80%;
+                                    height: 0;
+                                    max-width: 100%;
+                                }
+
+                                .embed-container iframe,
+                                .embed-container object,
+                                .embed-container iframe {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                }
+
+                                small {
+                                    position: absolute;
+                                    z-index: 40;
+                                    bottom: 0;
+                                    margin-bottom: -15px;
+                                }
+                            </style>
+                            <div class="embed-container">
+                                <small>
+                                    <a href="//ut-austin.maps.arcgis.com/apps/Embed/index.html?webmap=848f3ced9ee94343b35af6a8585f2cbd&extent=-99.5005,29.3754,-98.4863,29.8643&zoom=true&scale=true&legend=true&basemap_gallery=true&disable_scroll=false&theme=light&marker=-99.192;29.633;;;;"
+                                        class="collapse-link" style="text-align:left" target="_blank">
+                                        View larger map
+                                    </a>
+                                </small>
+                                <br>
+                                <iframe width="500" height="400" frameborder="0" scrolling="no" marginheight="0"
+                                    marginwidth="0" title="Visited Parks"
+                                    src="//ut-austin.maps.arcgis.com/apps/Embed/index.html?webmap=848f3ced9ee94343b35af6a8585f2cbd&extent=-99.5005,29.3754,-98.4863,29.8643&zoom=true&previewImage=false&scale=true&legend=true&basemap_gallery=true&disable_scroll=true&theme=light&marker=-99.192;29.633;;;;"></iframe>
                             </div>
-                        </aside>
-                    </div>
+                        </div>
+                    </aside>
                 </div>
             </div>
-        </section>
-        
-        <!-- Angular.js -->
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-sanitize.min.js"></script>
-        
-        <!-- UI Bootstrap -->
-        <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.min.js"></script>
+        </div>
+    </section>
 
-        <!-- jQuery -->
-        <script src="js/jquery-3.6.0.js"></script>
-        
-        <!-- App.js -->
-        <script src="js/app.js"></script>
-        
-        <!-- BlogController.js -->
-        <script src="js/blogController.js"></script>
-        
-        <!-- BlogFactory.js -->
-        <script src="js/blogFactory.js"></script>
-        
-        <!-- Script.js -->
-        <script src="js/script.js"></script>
-    </body>
+    <!-- Angular.js -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-sanitize.min.js"></script>
+
+    <!-- UI Bootstrap -->
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="js/jquery-3.6.0.js"></script>
+
+    <!-- App.js -->
+    <script src="js/app.js"></script>
+
+    <!-- BlogController.js -->
+    <script src="js/blogController.js"></script>
+
+    <!-- BlogFactory.js -->
+    <script src="js/blogFactory.js"></script>
+
+    <!-- Script.js -->
+    <script src="js/script.js"></script>
+</body>
+
 </html>
